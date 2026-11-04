@@ -2,70 +2,25 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>معاينة ملف الـ PDF</title>
-    
-    <!-- إعدادات المعاينة لظهرور العنوان والوصف عند مشاركة الرابط -->
-    <meta property="og:title" content="عرض مستند الـ PDF">
-    <meta property="og:description" content="تصفح المستند مباشرة عبر المتصفح أونلاين.">
-    <meta property="og:type" content="website">
-
+    <title>مكتبة ملفات الـ PDF</title>
     <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            width: 100%;
-            background-color: #525659;
-            font-family: Tahoma, sans-serif;
-        }
-        .header-bar {
-            background: #24292e;
-            color: #fff;
-            padding: 10px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-        }
-        .header-bar h1 {
-            font-size: 16px;
-            margin: 0;
-        }
-        .download-btn {
-            background: #2ea44f;
-            color: white;
-            padding: 6px 12px;
-            border-radius: 6px;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: bold;
-        }
-        .download-btn:hover {
-            background: #2c974b;
-        }
-        .viewer-container {
-            width: 100%;
-            height: calc(100% - 50px);
-        }
-        iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
+        body { font-family: Tahoma, sans-serif; text-align: center; padding: 50px; background: #f4f4f9; }
+        .file-box { background: white; padding: 15px; margin: 10px auto; width: 50%; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center; }
+        a { text-decoration: none; background: #0366d6; color: white; padding: 8px 15px; border-radius: 5px; font-size: 14px; }
+        a:hover { background: #0056b3; }
     </style>
 </head>
 <body>
-
-    <div class="header-bar">
-        <h1>عرض المستند أونلاين</h1>
-        <!-- رابط التحميل المباشر للزر العلوي -->
-        <a href="https://github.com/pdf-vault/files/releases/download/v1/interview_sheikh_hussein_al_daihi_program_bahran.pdf" class="download-btn" download>تحميل الملف</a>
+    <h2>مكتبة المستندات</h2>
+    
+    <div class="file-box">
+        <span>مفابلة الشيخ حسين الديهي - برنامج بحران</span>
+        <a href="https://docs.google.com/viewer?url=https://github.com/pdf-vault/files/releases/download/v1/interview_sheikh_hussein_al_daihi_program_bahran.pdf&embedded=true">عرض الملف</a>
     </div>
 
-    <div class="viewer-container">
-        <!-- استخدام عارض جوجل لعرض الـ PDF داخل المتصفح بدون مشاكل -->
-        <iframe src="https://docs.google.com/viewer?url=https://github.com/pdf-vault/files/releases/download/v1/interview_sheikh_hussein_al_daihi_program_bahran.pdf&embedded=true"></iframe>
+    <div class="file-box">
+        <span>مقابلة د.السيد طاهر الموسوي - برنامج بحران</span>
+        <a href="https://docs.google.com/viewer?url=رابط_الملف_الثاني_هنا&embedded=true">عرض الملف</a>
     </div>
 
 </body>
