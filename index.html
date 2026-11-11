@@ -1,226 +1,495 @@
+This is a modern, stylish HTML document library page designed for deployment on GitHub. It presents a clean, card-based list of PDF files with view and download options.
+```html
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مكتبة المستندات الرقمية</title>
-    <!-- استيراد خط تجريد عصري من Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg-color: #f8fafc;
-            --card-bg: #ffffff;
-            --text-main: #1e293b;
-            --text-muted: #64748b;
-            --primary: #4f46e5;
-            --primary-hover: #4338ca;
-            --success: #10b981;
-            --success-hover: #059669;
-            --border-color: #e2e8f0;
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-            --transition: all 0.25s ease-in-out;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>مكتبة المستندات الرقمية | بحران</title>
+  <!-- Modern Cairo font from Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Font Awesome 6 (free icons) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* ----- CSS Reset & Base ----- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        body {
-            font-family: 'Cairo', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            margin: 0;
-            padding: 40px 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-        }
+    :root {
+      --bg-gradient: linear-gradient(145deg, #f9faff 0%, #eef2f9 100%);
+      --card-bg: rgba(255, 255, 255, 0.85);
+      --card-border: rgba(255, 255, 255, 0.5);
+      --text-main: #0b1b33;
+      --text-muted: #54657e;
+      --primary: #4f46e5;
+      --primary-light: #eef2ff;
+      --primary-dark: #3730a3;
+      --success: #10b981;
+      --success-light: #ecfdf5;
+      --success-dark: #047857;
+      --shadow-sm: 0 10px 25px -5px rgba(0, 20, 30, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.02);
+      --shadow-hover: 0 25px 35px -12px rgba(79, 70, 229, 0.15), 0 12px 18px -8px rgba(0, 0, 0, 0.05);
+      --radius-card: 24px;
+      --radius-btn: 40px;
+      --transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
 
-        header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
+    body {
+      font-family: 'Cairo', sans-serif;
+      background: var(--bg-gradient);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2.5rem 1.5rem;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
 
-        h2 {
-            font-size: 28px;
-            font-weight: 700;
-            color: var(--text-main);
-            margin: 0 0 8px 0;
-        }
+    /* ----- Main Container ----- */
+    .library-wrapper {
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
+    }
 
-        p.subtitle {
-            color: var(--text-muted);
-            font-size: 14px;
-            margin: 0;
-        }
+    /* ----- Header Section ----- */
+    .library-header {
+      text-align: center;
+      margin-bottom: 3rem;
+      position: relative;
+    }
 
-        .container {
-            width: 100%;
-            max-width: 750px;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
+    .library-header h1 {
+      font-size: 2.8rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #1e1b4b 0%, #4f46e5 80%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.5rem;
+      display: inline-block;
+      padding: 0 1rem;
+      position: relative;
+    }
 
-        .file-box {
-            background: var(--card-bg);
-            padding: 20px 24px;
-            border-radius: 14px;
-            box-shadow: var(--shadow);
-            border: 1px solid var(--border-color);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: var(--transition);
-        }
+    .library-header h1 i {
+      background: var(--primary-light);
+      color: var(--primary);
+      font-size: 2rem;
+      padding: 0.5rem;
+      border-radius: 18px;
+      margin-left: 0.75rem;
+      vertical-align: middle;
+      box-shadow: 0 8px 20px -6px rgba(79, 70, 229, 0.25);
+    }
 
-        .file-box:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
-            border-color: #cbd5e1;
-        }
+    .library-header .subhead {
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(8px);
+      display: inline-block;
+      padding: 0.45rem 1.5rem;
+      border-radius: 50px;
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+    }
 
-        .file-info {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            flex-grow: 1;
-            margin-left: 20px;
-        }
+    /* ----- Document Cards Grid ----- */
+    .document-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
 
-        .file-icon {
-            background: #eef2ff;
-            color: var(--primary);
-            width: 44px;
-            height: 44px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            font-weight: 700;
-            flex-shrink: 0;
-        }
+    /* ----- Card Styling ----- */
+    .doc-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-card);
+      padding: 1.5rem 2rem;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
 
-        .file-title {
-            font-size: 15px;
-            font-weight: 600;
-            color: var(--text-main);
-            line-height: 1.5;
-        }
+    .doc-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 6px;
+      height: 100%;
+      background: linear-gradient(to bottom, var(--primary), #818cf8);
+      border-radius: 0 24px 24px 0;
+      opacity: 0.7;
+      transition: var(--transition);
+    }
 
-        .buttons-group {
-            display: flex;
-            gap: 10px;
-            flex-shrink: 0;
-        }
+    .doc-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-hover);
+      border-color: rgba(79, 70, 229, 0.3);
+      background: rgba(255, 255, 255, 0.95);
+    }
 
-        .btn {
-            text-decoration: none;
-            padding: 9px 16px;
-            border-radius: 8px;
-            font-size: 13px;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            transition: var(--transition);
-            cursor: pointer;
-            border: none;
-        }
+    .doc-card:hover::before {
+      width: 8px;
+      opacity: 1;
+    }
 
-        .btn-view {
-            background: #eef2ff;
-            color: var(--primary);
-        }
+    /* ----- File Info (icon + title) ----- */
+    .file-info {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      flex: 1 1 380px;
+      min-width: 0; /* prevents overflow */
+    }
 
-        .btn-view:hover {
-            background: var(--primary);
-            color: white;
-        }
+    .file-icon {
+      background: linear-gradient(145deg, #eef2ff, #e0e7ff);
+      color: var(--primary-dark);
+      width: 60px;
+      height: 60px;
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      font-weight: 700;
+      flex-shrink: 0;
+      box-shadow: 0 8px 18px -6px rgba(79, 70, 229, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      transition: var(--transition);
+    }
 
-        .btn-download {
-            background: #ecfdf5;
-            color: var(--success);
-        }
+    .doc-card:hover .file-icon {
+      background: linear-gradient(145deg, #e0e7ff, #c7d2fe);
+      transform: scale(1.02);
+    }
 
-        .btn-download:hover {
-            background: var(--success);
-            color: white;
-        }
+    .file-icon i {
+      font-size: 1.8rem;
+    }
 
-        /* تحسين التجاوب مع الجوال */
-        @media (max-width: 640px) {
-            .file-box {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 16px;
-            }
-            .file-info {
-                margin-left: 0;
-            }
-            .buttons-group {
-                width: 100%;
-                justify-content: stretch;
-            }
-            .btn {
-                flex: 1;
-                justify-content: center;
-            }
-        }
-    </style>
+    .file-title {
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--text-main);
+      line-height: 1.4;
+      word-break: break-word;
+      padding-left: 0.5rem;
+    }
+
+    .file-title small {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 400;
+      color: var(--text-muted);
+      margin-top: 4px;
+      letter-spacing: 0.3px;
+    }
+
+    /* ----- Buttons Group ----- */
+    .buttons-group {
+      display: flex;
+      gap: 0.85rem;
+      flex-shrink: 0;
+      align-items: center;
+      justify-content: flex-end;
+      margin-top: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      text-decoration: none;
+      padding: 0.7rem 1.6rem;
+      border-radius: var(--radius-btn);
+      font-size: 0.95rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      transition: var(--transition);
+      cursor: pointer;
+      border: 1px solid transparent;
+      white-space: nowrap;
+      letter-spacing: 0.3px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
+    }
+
+    .btn i {
+      font-size: 1rem;
+      transition: var(--transition);
+    }
+
+    .btn-view {
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      border-color: rgba(79, 70, 229, 0.15);
+    }
+
+    .btn-view:hover {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+      box-shadow: 0 12px 18px -8px rgba(79, 70, 229, 0.4);
+      transform: translateY(-1px);
+    }
+
+    .btn-view:hover i {
+      transform: scale(1.1);
+    }
+
+    .btn-download {
+      background: var(--success-light);
+      color: var(--success-dark);
+      border-color: rgba(16, 185, 129, 0.15);
+    }
+
+    .btn-download:hover {
+      background: var(--success);
+      color: white;
+      border-color: var(--success);
+      box-shadow: 0 12px 18px -8px rgba(16, 185, 129, 0.4);
+      transform: translateY(-1px);
+    }
+
+    .btn-download:hover i {
+      transform: scale(1.1);
+    }
+
+    /* ----- Responsive Adjustments ----- */
+    @media (max-width: 700px) {
+      body {
+        padding: 1.5rem 1rem;
+      }
+
+      .library-header h1 {
+        font-size: 2rem;
+      }
+
+      .library-header h1 i {
+        font-size: 1.5rem;
+        padding: 0.4rem;
+      }
+
+      .doc-card {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 1.5rem;
+        gap: 1.25rem;
+      }
+
+      .doc-card::before {
+        width: 100%;
+        height: 5px;
+        top: 0;
+        right: 0;
+        border-radius: 24px 24px 0 0;
+        background: linear-gradient(to left, var(--primary), #818cf8);
+      }
+
+      .file-info {
+        width: 100%;
+        flex: 1 1 auto;
+      }
+
+      .buttons-group {
+        width: 100%;
+        justify-content: stretch;
+        margin-top: 0.25rem;
+      }
+
+      .btn {
+        flex: 1;
+        padding: 0.7rem 0.8rem;
+        font-size: 0.9rem;
+      }
+    }
+
+    @media (max-width: 400px) {
+      .file-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 14px;
+      }
+
+      .file-icon i {
+        font-size: 1.5rem;
+      }
+
+      .file-title {
+        font-size: 1rem;
+      }
+
+      .btn i {
+        display: none; /* hide icons on very small screens to save space */
+      }
+
+      .btn {
+        gap: 0.2rem;
+      }
+    }
+
+    /* ----- Subtle animations ----- */
+    @keyframes fadeSlide {
+      0% { opacity: 0; transform: translateY(12px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .doc-card {
+      animation: fadeSlide 0.4s ease-out forwards;
+    }
+
+    .doc-card:nth-child(1) { animation-delay: 0.05s; }
+    .doc-card:nth-child(2) { animation-delay: 0.1s; }
+    .doc-card:nth-child(3) { animation-delay: 0.15s; }
+    .doc-card:nth-child(4) { animation-delay: 0.2s; }
+
+    /* Footer note for GitHub */
+    .github-note {
+      margin-top: 3rem;
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      opacity: 0.7;
+      border-top: 1px solid rgba(0, 0, 0, 0.04);
+      padding-top: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .github-note i {
+      color: #1e293b;
+    }
+  </style>
 </head>
 <body>
-
-    <header>
-        <h2>مكتبة المستندات</h2>
+  <div class="library-wrapper">
+    <!-- Header -->
+    <header class="library-header">
+      <h1>
+        <i class="fas fa-folder-open"></i>
+        مكتبة المستندات
+      </h1>
+      <div class="subhead">برنامج بحران — أرشيف المقابلات</div>
     </header>
 
-    <div class="container">
-        <!-- الملف الأول -->
-        <div class="file-box">
-            <div class="file-info">
-                <div class="file-icon">PDF</div>
-                <span class="file-title">مقابلة الشيخ حسين الديهي - برنامج بحران</span>
-            </div>
-            <div class="buttons-group">
-                <a href="https://docs.google.com/viewer?url=https://github.com/pdf-vault/files/releases/download/v1/interview_sheikh_hussein_al_daihi_program_bahran.pdf&embedded=true" class="btn btn-view">عرض الملف</a>
-                <a href="https://github.com/pdf-vault/files/releases/download/v1/interview_sheikh_hussein_al_daihi_program_bahran.pdf" class="btn btn-download" download>تحميل</a>
-            </div>
+    <!-- Document Grid -->
+    <div class="document-grid">
+      <!-- Card 1: interview_sheikh_hussein_al_daihi -->
+      <div class="doc-card">
+        <div class="file-info">
+          <div class="file-icon">
+            <i class="fas fa-file-pdf"></i>
+          </div>
+          <div class="file-title">
+            مقابلة الشيخ حسين الديهي
+            <small>برنامج بحران</small>
+          </div>
         </div>
+        <div class="buttons-group">
+          <a href="https://docs.google.com/viewer?url=https://github.com/pdf-vault/files/releases/download/v1/interview_sheikh_hussein_al_daihi_program_bahran.pdf&embedded=true" 
+             class="btn btn-view" target="_blank" rel="noopener noreferrer">
+            <i class="fas fa-eye"></i> عرض
+          </a>
+          <a href="https://github.com/pdf-vault/files/releases/download/v1/interview_sheikh_hussein_al_daihi_program_bahran.pdf" 
+             class="btn btn-download" download>
+            <i class="fas fa-download"></i> تحميل
+          </a>
+        </div>
+      </div>
 
-        <!-- الملف الثاني -->
-        <div class="file-box">
-            <div class="file-info">
-                <div class="file-icon">PDF</div>
-                <span class="file-title">مقابلة د.السيد طاهر الموسوي - برنامج بحران</span>
-            </div>
-            <div class="buttons-group">
-                <a href="https://docs.google.com/viewer?url=https://github.com/pdf-vault/files/releases/download/v1/interview_dr_sayed_taher_al_mousawi_program_bahran.pdf&embedded=true" class="btn btn-view">عرض الملف</a>
-                <a href="https://github.com/pdf-vault/files/releases/download/v1/interview_dr_sayed_taher_al_mousawi_program_bahran.pdf" class="btn btn-download" download>تحميل</a>
-            </div>
+      <!-- Card 2: interview_dr_sayed_taher_al_mousawi -->
+      <div class="doc-card">
+        <div class="file-info">
+          <div class="file-icon">
+            <i class="fas fa-file-pdf"></i>
+          </div>
+          <div class="file-title">
+            مقابلة د. السيد طاهر الموسوي
+            <small>برنامج بحران</small>
+          </div>
         </div>
+        <div class="buttons-group">
+          <a href="https://docs.google.com/viewer?url=https://github.com/pdf-vault/files/releases/download/v1/interview_dr_sayed_taher_al_mousawi_program_bahran.pdf&embedded=true" 
+             class="btn btn-view" target="_blank" rel="noopener noreferrer">
+            <i class="fas fa-eye"></i> عرض
+          </a>
+          <a href="https://github.com/pdf-vault/files/releases/download/v1/interview_dr_sayed_taher_al_mousawi_program_bahran.pdf" 
+             class="btn btn-download" download>
+            <i class="fas fa-download"></i> تحميل
+          </a>
+        </div>
+      </div>
 
-        <!-- الملف الثالث -->
-        <div class="file-box">
-            <div class="file-info">
-                <div class="file-icon">PDF</div>
-                <span class="file-title">مقابلة الأستاذ باقر درويش - برنامج بحران</span>
-            </div>
-            <div class="buttons-group">
-                <a href="https://docs.google.com/viewer?url=https://github.com/pdf-vault/files/releases/download/v1/interview_baqer_darwish_program_bahran.pdf&embedded=true" class="btn btn-view">عرض الملف</a>
-                <a href="https://github.com/pdf-vault/files/releases/download/v1/interview_baqer_darwish_program_bahran.pdf" class="btn btn-download" download>تحميل</a>
-            </div>
+      <!-- Card 3: interview_baqer_darwish -->
+      <div class="doc-card">
+        <div class="file-info">
+          <div class="file-icon">
+            <i class="fas fa-file-pdf"></i>
+          </div>
+          <div class="file-title">
+            مقابلة الأستاذ باقر درويش
+            <small>برنامج بحران</small>
+          </div>
         </div>
-        <!-- الملف الرابع -->
-        <div class="file-box">
-            <div class="file-info">
-                <div class="file-icon">PDF</div>
-                <span class="file-title">مقابلة السيد مرتضى السندي - برنامج بحران</span>
-            </div>
-            <div class="buttons-group">
-                <a href="https://docs.google.com/viewer?url=https://github.com/pdf-vault/files/releases/download/v1/interview_dr_sayed_mortada_al_sanadi_program_bahran.pdf.pdf&embedded=true" class="btn btn-view">عرض الملف</a>
-                <a href="https://github.com/pdf-vault/files/releases/download/v1/interview_dr_sayed_mortada_al_sanadi_program_bahran.pdf.pdf" class="btn btn-download" download>تحميل</a>
-            </div>
+        <div class="buttons-group">
+          <a href="https://docs.google.com/viewer?url=https://github.com/pdf-vault/files/releases/download/v1/interview_baqer_darwish_program_bahran.pdf&embedded=true" 
+             class="btn btn-view" target="_blank" rel="noopener noreferrer">
+            <i class="fas fa-eye"></i> عرض
+          </a>
+          <a href="https://github.com/pdf-vault/files/releases/download/v1/interview_baqer_darwish_program_bahran.pdf" 
+             class="btn btn-download" download>
+            <i class="fas fa-download"></i> تحميل
+          </a>
         </div>
+      </div>
+
+      <!-- Card 4: interview_dr_sayed_mortada_al_sanadi (note double .pdf) -->
+      <div class="doc-card">
+        <div class="file-info">
+          <div class="file-icon">
+            <i class="fas fa-file-pdf"></i>
+          </div>
+          <div class="file-title">
+            مقابلة السيد مرتضى السندي
+            <small>برنامج بحران</small>
+          </div>
+        </div>
+        <div class="buttons-group">
+          <a href="https://docs.google.com/viewer?url=https://github.com/pdf-vault/files/releases/download/v1/interview_dr_sayed_mortada_al_sanadi_program_bahran.pdf.pdf&embedded=true" 
+             class="btn btn-view" target="_blank" rel="noopener noreferrer">
+            <i class="fas fa-eye"></i> عرض
+          </a>
+          <a href="https://github.com/pdf-vault/files/releases/download/v1/interview_dr_sayed_mortada_al_sanadi_program_bahran.pdf.pdf" 
+             class="btn btn-download" download>
+            <i class="fas fa-download"></i> تحميل
+          </a>
+        </div>
+      </div>
     </div>
-
+  </div>
 </body>
 </html>
+```
