@@ -1,492 +1,600 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ar" dir="rtl">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>مكتبة المستندات الرقمية | بحران</title>
-  <!-- Modern Cairo font from Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <!-- Font Awesome 6 (free icons) -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <style>
-    /* ----- CSS Reset & Base ----- */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>مكتبة المستندات | برنامج بحران</title>
+    <!-- خطوط عربية كوفية وهندسية مطابقة لطراز الشعار -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Alexandria:wght@400;500;600;700;800;900&family=Noto+Kufi+Arabic:wght@500;600;700;800;900&family=Reem+Kufi:wght@600;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- أيقونات Font Awesome 6 -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <style>
+      
+      /* ==========================================================================
+         الهوية البصرية لشعار بحران
+         ========================================================================== */
+      :root {
+        --brand-clay: #BA5424;          /* لون الطمي المحروق المأخوذ من الشعار */
+        --brand-clay-dark: #9A3F15;     /* درجة داكنة للتفاعل */
+        --brand-clay-soft: #F9F2EB;     /* خلفية هادئة ناعمة */
+        --brand-clay-border: #E8D3C1;   /* حدود ترابية خفيفة */
 
-    :root {
-      --bg-gradient: linear-gradient(145deg, #f9faff 0%, #eef2f9 100%);
-      --card-bg: rgba(255, 255, 255, 0.85);
-      --card-border: rgba(255, 255, 255, 0.5);
-      --text-main: #0b1b33;
-      --text-muted: #54657e;
-      --primary: #4f46e5;
-      --primary-light: #eef2ff;
-      --primary-dark: #3730a3;
-      --success: #10b981;
-      --success-light: #ecfdf5;
-      --success-dark: #047857;
-      --shadow-sm: 0 10px 25px -5px rgba(0, 20, 30, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.02);
-      --shadow-hover: 0 25px 35px -12px rgba(79, 70, 229, 0.15), 0 12px 18px -8px rgba(0, 0, 0, 0.05);
-      --radius-card: 24px;
-      --radius-btn: 40px;
-      --transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    }
+        --bg-canvas: #F7F2EC;           /* لون الورق التوثيقي الدافئ */
+        --bg-gradient: radial-gradient(circle at 50% 0%, #FFFFFF 0%, #F7F2EC 75%);
+        --surface-card: #FFFFFF;
+        --border-card: #EADBCE;
+        --border-card-hover: #D4B294;
 
-    body {
-      font-family: 'Cairo', sans-serif;
-      background: var(--bg-gradient);
-      color: var(--text-main);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 2.5rem 1.5rem;
-      line-height: 1.5;
-      -webkit-font-smoothing: antialiased;
-    }
+        --text-heading: #231610;        /* لون بني داكن فحمي */
+        --text-body: #4A3A31;           /* لون القراءة المريح */
+        --text-muted: #847266;          /* تفاصيل ثانوية */
 
-    /* ----- Main Container ----- */
-    .library-wrapper {
-      width: 100%;
-      max-width: 900px;
-      margin: 0 auto;
-    }
+        --shadow-card: 0 4px 18px rgba(35, 22, 16, 0.05), 0 1px 3px rgba(186, 84, 36, 0.04);
+        --shadow-hover: 0 16px 32px -8px rgba(60, 30, 15, 0.12), 0 4px 12px rgba(186, 84, 36, 0.1);
+        --radius-box: 14px;             /* زوايا هندسية مستوحاة من زوايا الخط الحاد */
+        --radius-btn: 10px;
+        --transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+      }
 
-    /* ----- Header Section ----- */
-    .library-header {
-      text-align: center;
-      margin-bottom: 3rem;
-      position: relative;
-    }
+      *, *::before, *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-    .library-header h1 {
-      font-size: 2.8rem;
-      font-weight: 700;
-      background: linear-gradient(135deg, #1e1b4b 0%, #4f46e5 80%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      letter-spacing: -0.02em;
-      margin-bottom: 0.5rem;
-      display: inline-block;
-      padding: 0 1rem;
-      position: relative;
-    }
-
-    .library-header h1 i {
-      background: var(--primary-light);
-      color: var(--primary);
-      font-size: 2rem;
-      padding: 0.5rem;
-      border-radius: 18px;
-      margin-left: 0.75rem;
-      vertical-align: middle;
-      box-shadow: 0 8px 20px -6px rgba(79, 70, 229, 0.25);
-    }
-
-    .library-header .subhead {
-      font-size: 1.1rem;
-      font-weight: 500;
-      color: var(--text-muted);
-      background: rgba(255, 255, 255, 0.7);
-      backdrop-filter: blur(8px);
-      display: inline-block;
-      padding: 0.45rem 1.5rem;
-      border-radius: 50px;
-      border: 1px solid rgba(255, 255, 255, 0.9);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
-    }
-
-    /* ----- Document Cards Grid ----- */
-    .document-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 1.25rem;
-    }
-
-    /* ----- Card Styling ----- */
-    .doc-card {
-      background: var(--card-bg);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid var(--card-border);
-      border-radius: var(--radius-card);
-      padding: 1.5rem 2rem;
-      box-shadow: var(--shadow-sm);
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      transition: var(--transition);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .doc-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 6px;
-      height: 100%;
-      background: linear-gradient(to bottom, var(--primary), #818cf8);
-      border-radius: 0 24px 24px 0;
-      opacity: 0.7;
-      transition: var(--transition);
-    }
-
-    .doc-card:hover {
-      transform: translateY(-4px);
-      box-shadow: var(--shadow-hover);
-      border-color: rgba(79, 70, 229, 0.3);
-      background: rgba(255, 255, 255, 0.95);
-    }
-
-    .doc-card:hover::before {
-      width: 8px;
-      opacity: 1;
-    }
-
-    /* ----- File Info (icon + title) ----- */
-    .file-info {
-      display: flex;
-      align-items: center;
-      gap: 1.25rem;
-      flex: 1 1 380px;
-      min-width: 0; /* prevents overflow */
-    }
-
-    .file-icon {
-      background: linear-gradient(145deg, #eef2ff, #e0e7ff);
-      color: var(--primary-dark);
-      width: 60px;
-      height: 60px;
-      border-radius: 18px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.4rem;
-      font-weight: 700;
-      flex-shrink: 0;
-      box-shadow: 0 8px 18px -6px rgba(79, 70, 229, 0.25);
-      border: 1px solid rgba(255, 255, 255, 0.9);
-      transition: var(--transition);
-    }
-
-    .doc-card:hover .file-icon {
-      background: linear-gradient(145deg, #e0e7ff, #c7d2fe);
-      transform: scale(1.02);
-    }
-
-    .file-icon i {
-      font-size: 1.8rem;
-    }
-
-    .file-title {
-      font-size: 1.15rem;
-      font-weight: 600;
-      color: var(--text-main);
-      line-height: 1.4;
-      word-break: break-word;
-      padding-left: 0.5rem;
-    }
-
-    .file-title small {
-      display: block;
-      font-size: 0.8rem;
-      font-weight: 400;
-      color: var(--text-muted);
-      margin-top: 4px;
-      letter-spacing: 0.3px;
-    }
-
-    /* ----- Buttons Group ----- */
-    .buttons-group {
-      display: flex;
-      gap: 0.85rem;
-      flex-shrink: 0;
-      align-items: center;
-      justify-content: flex-end;
-      margin-top: 0.5rem;
-      flex-wrap: wrap;
-    }
-
-    .btn {
-      text-decoration: none;
-      padding: 0.7rem 1.6rem;
-      border-radius: var(--radius-btn);
-      font-size: 0.95rem;
-      font-weight: 600;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.6rem;
-      transition: var(--transition);
-      cursor: pointer;
-      border: 1px solid transparent;
-      white-space: nowrap;
-      letter-spacing: 0.3px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
-    }
-
-    .btn i {
-      font-size: 1rem;
-      transition: var(--transition);
-    }
-
-    .btn-view {
-      background: var(--primary-light);
-      color: var(--primary-dark);
-      border-color: rgba(79, 70, 229, 0.15);
-    }
-
-    .btn-view:hover {
-      background: var(--primary);
-      color: white;
-      border-color: var(--primary);
-      box-shadow: 0 12px 18px -8px rgba(79, 70, 229, 0.4);
-      transform: translateY(-1px);
-    }
-
-    .btn-view:hover i {
-      transform: scale(1.1);
-    }
-
-    .btn-download {
-      background: var(--success-light);
-      color: var(--success-dark);
-      border-color: rgba(16, 185, 129, 0.15);
-    }
-
-    .btn-download:hover {
-      background: var(--success);
-      color: white;
-      border-color: var(--success);
-      box-shadow: 0 12px 18px -8px rgba(16, 185, 129, 0.4);
-      transform: translateY(-1px);
-    }
-
-    .btn-download:hover i {
-      transform: scale(1.1);
-    }
-
-    /* ----- Responsive Adjustments ----- */
-    @media (max-width: 700px) {
       body {
-        padding: 1.5rem 1rem;
-      }
-
-      .library-header h1 {
-        font-size: 2rem;
-      }
-
-      .library-header h1 i {
-        font-size: 1.5rem;
-        padding: 0.4rem;
-      }
-
-      .doc-card {
+        font-family: 'Alexandria', 'Noto Kufi Arabic', sans-serif;
+        background: var(--bg-gradient);
+        background-color: var(--bg-canvas);
+        color: var(--text-body);
+        min-height: 100vh;
+        display: flex;
         flex-direction: column;
-        align-items: flex-start;
-        padding: 1.5rem;
+        align-items: center;
+        justify-content: center;
+        padding: 3.5rem 1.5rem;
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      .archive-container {
+        width: 100%;
+        max-width: 880px;
+        margin: 0 auto;
+      }
+
+      /* ==========================================================================
+         ترويسة الشعار النصي الفاخر (بدون صور)
+         ========================================================================== */
+      .brand-header {
+        text-align: center;
+        margin-bottom: 3.25rem;
+      }
+
+      /* لوحة الشعار النصي بنمط الخط الكوفي */
+      .brand-hero-plate {
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: #ECE0D2;
+        border: 2px solid #E1CEBD;
+        border-radius: 24px;
+        padding: 1.25rem 3.5rem 1.1rem;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 10px 25px -4px rgba(186, 84, 36, 0.16);
+        transition: var(--transition);
+        position: relative;
+      }
+
+      .brand-hero-plate:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 14px 30px -4px rgba(186, 84, 36, 0.22);
+        border-color: var(--brand-clay);
+      }
+
+      /* كلمة "بحران" نصية بالكامل بخط كوفي عريض متناسق مع الشعار */
+      .brand-wordmark {
+        font-family: 'Alexandria', 'Noto Kufi Arabic', 'Reem Kufi', sans-serif;
+        font-size: 3.8rem;
+        font-weight: 900;
+        color: var(--brand-clay);
+        line-height: 1;
+        letter-spacing: 0.02em;
+        text-shadow: 0 2px 10px rgba(186, 84, 36, 0.12);
+        user-select: none;
+      }
+
+      .brand-program-label {
+        font-size: 0.8rem;
+        font-weight: 700;
+        color: var(--brand-clay-dark);
+        letter-spacing: 0.35em;
+        margin-top: 0.35rem;
+        opacity: 0.85;
+      }
+
+      /* عنوان ووصف الصفحة */
+      .archive-title {
+        font-size: 2.1rem;
+        font-weight: 800;
+        color: var(--text-heading);
+        letter-spacing: -0.02em;
+        line-height: 1.3;
+        margin-bottom: 0.35rem;
+      }
+
+      .archive-subtitle {
+        font-size: 1.05rem;
+        font-weight: 400;
+        color: var(--text-muted);
+        margin-bottom: 1.5rem;
+      }
+
+      /* فاصل هندسي بنقطة المعين (Diamond) كمعينات الخط العربي */
+      .archive-ornament {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 14px;
+        max-width: 260px;
+        margin: 0 auto;
+      }
+
+      .archive-ornament .line {
+        flex: 1;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, var(--brand-clay-border), transparent);
+      }
+
+      .archive-ornament .diamond {
+        width: 7px;
+        height: 7px;
+        background: var(--brand-clay);
+        transform: rotate(45deg);
+        border-radius: 1px;
+      }
+
+      /* ==========================================================================
+         قائمة بطاقات المستندات التوثيقية
+         ========================================================================== */
+      .dossier-list {
+        display: flex;
+        flex-direction: column;
         gap: 1.25rem;
       }
 
-      .doc-card::before {
-        width: 100%;
-        height: 5px;
+      .dossier-card {
+        background: var(--surface-card);
+        border: 1px solid var(--border-card);
+        border-radius: var(--radius-box);
+        padding: 1.35rem 1.75rem;
+        box-shadow: var(--shadow-card);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1.5rem;
+        transition: var(--transition);
+        position: relative;
+        overflow: hidden;
+      }
+
+      /* شريط جانبي دقيق بلون الشعار */
+      .dossier-card::before {
+        content: '';
+        position: absolute;
         top: 0;
         right: 0;
-        border-radius: 24px 24px 0 0;
-        background: linear-gradient(to left, var(--primary), #818cf8);
+        bottom: 0;
+        width: 4px;
+        background: var(--brand-clay);
+        transition: var(--transition);
       }
 
-      .file-info {
-        width: 100%;
-        flex: 1 1 auto;
+      .dossier-card:hover {
+        transform: translateY(-3px);
+        box-shadow: var(--shadow-hover);
+        border-color: var(--border-card-hover);
       }
 
-      .buttons-group {
-        width: 100%;
-        justify-content: stretch;
-        margin-top: 0.25rem;
+      .dossier-card:hover::before {
+        width: 6px;
+      }
+
+      .dossier-details {
+        display: flex;
+        align-items: center;
+        gap: 1.25rem;
+        flex: 1;
+        min-width: 0;
+      }
+
+      /* رقم تسلسلي توثيقي هندسي */
+      .dossier-number {
+        font-size: 1.15rem;
+        font-weight: 800;
+        color: var(--brand-clay);
+        background: var(--brand-clay-soft);
+        border: 1px solid var(--brand-clay-border);
+        width: 46px;
+        height: 46px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        transition: var(--transition);
+      }
+
+      .dossier-card:hover .dossier-number {
+        background: var(--brand-clay);
+        color: #FFFFFF;
+        border-color: var(--brand-clay);
+      }
+
+      .dossier-content {
+        min-width: 0;
+      }
+
+      .dossier-title {
+        font-size: 1.18rem;
+        font-weight: 700;
+        color: var(--text-heading);
+        line-height: 1.35;
+        margin-bottom: 0.25rem;
+        transition: var(--transition);
+      }
+
+      .dossier-card:hover .dossier-title {
+        color: var(--brand-clay);
+      }
+
+      .dossier-meta {
+        display: flex;
+        align-items: center;
+        gap: 0.65rem;
+        font-size: 0.84rem;
+        color: var(--text-muted);
+        font-weight: 500;
+      }
+
+      .dossier-meta .tag {
+        color: var(--brand-clay);
+        font-weight: 600;
+      }
+
+      .dossier-meta .sep {
+        opacity: 0.5;
+      }
+
+      /* الأزرار التفاعلية */
+      .dossier-actions {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        flex-shrink: 0;
       }
 
       .btn {
-        flex: 1;
-        padding: 0.7rem 0.8rem;
-        font-size: 0.9rem;
-      }
-    }
-
-    @media (max-width: 400px) {
-      .file-icon {
-        width: 50px;
-        height: 50px;
-        border-radius: 14px;
-      }
-
-      .file-icon i {
-        font-size: 1.5rem;
-      }
-
-      .file-title {
-        font-size: 1rem;
+        text-decoration: none;
+        padding: 0.62rem 1.4rem;
+        border-radius: var(--radius-btn);
+        font-family: inherit;
+        font-size: 0.92rem;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        cursor: pointer;
+        transition: var(--transition);
+        white-space: nowrap;
+        border: 1.5px solid transparent;
       }
 
       .btn i {
-        display: none; /* hide icons on very small screens to save space */
+        font-size: 0.95rem;
       }
 
-      .btn {
-        gap: 0.2rem;
+      /* زر العرض الأساسي بلون بحران الطيني */
+      .btn-primary {
+        background: var(--brand-clay);
+        color: #FFFFFF;
+        box-shadow: 0 4px 12px rgba(186, 84, 36, 0.22);
       }
-    }
 
-    /* ----- Subtle animations ----- */
-    @keyframes fadeSlide {
-      0% { opacity: 0; transform: translateY(12px); }
-      100% { opacity: 1; transform: translateY(0); }
-    }
+      .btn-primary:hover {
+        background: var(--brand-clay-dark);
+        border-color: var(--brand-clay-dark);
+        box-shadow: 0 6px 16px rgba(186, 84, 36, 0.32);
+        transform: translateY(-1px);
+      }
 
-    .doc-card {
-      animation: fadeSlide 0.4s ease-out forwards;
-    }
+      /* زر التحميل الهادئ والمنسجم */
+      .btn-outline {
+        background: var(--brand-clay-soft);
+        color: var(--text-heading);
+        border-color: var(--brand-clay-border);
+      }
 
-    .doc-card:nth-child(1) { animation-delay: 0.05s; }
-    .doc-card:nth-child(2) { animation-delay: 0.1s; }
-    .doc-card:nth-child(3) { animation-delay: 0.15s; }
-    .doc-card:nth-child(4) { animation-delay: 0.2s; }
+      .btn-outline:hover {
+        background: var(--text-heading);
+        color: #FFFFFF;
+        border-color: var(--text-heading);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(35, 22, 16, 0.15);
+      }
 
-    /* Footer note for GitHub */
-    .github-note {
-      margin-top: 3rem;
-      text-align: center;
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      opacity: 0.7;
-      border-top: 1px solid rgba(0, 0, 0, 0.04);
-      padding-top: 1.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-    }
+      /* تذييل الصفحة */
+      .archive-footer {
+        margin-top: 3.5rem;
+        text-align: center;
+        font-size: 0.85rem;
+        color: var(--text-muted);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+      }
 
-    .github-note i {
-      color: #1e293b;
-    }
-  </style>
-</head>
-<body>
-  <div class="library-wrapper">
-    <!-- Header -->
-    <header class="library-header">
-      <h1>
-        <i class="fas fa-folder-open"></i>
-        مكتبة المستندات
-      </h1>
-      <div class="subhead">برنامج بحران — أرشيف المقابلات</div>
-    </header>
+      .archive-footer .dot {
+        color: var(--brand-clay);
+      }
 
-    <!-- Document Grid -->
-    <div class="document-grid">
-      <!-- Card 1 -->
-      <div class="doc-card">
-        <div class="file-info">
-          <div class="file-icon">
-            <i class="fas fa-file-pdf"></i>
-          </div>
-          <div class="file-title">
-            مقابلة الشيخ حسين الديهي
-            <small>برنامج بحران</small>
-          </div>
+      /* التجاوب مع مختلف الشاشات */
+      @media (max-width: 720px) {
+        body {
+          padding: 2rem 1rem 3rem;
+        }
+
+        .brand-hero-plate {
+          padding: 1rem 2.25rem 0.9rem;
+        }
+
+        .brand-wordmark {
+          font-size: 3rem;
+        }
+
+        .archive-title {
+          font-size: 1.8rem;
+        }
+
+        .dossier-card {
+          flex-direction: column;
+          align-items: stretch;
+          padding: 1.25rem;
+          gap: 1.15rem;
+        }
+
+        .dossier-actions {
+          width: 100%;
+        }
+
+        .btn {
+          flex: 1;
+        }
+      }
+
+      @media (max-width: 440px) {
+        .brand-wordmark {
+          font-size: 2.6rem;
+        }
+
+        .archive-title {
+          font-size: 1.55rem;
+        }
+
+        .dossier-number {
+          width: 40px;
+          height: 40px;
+          font-size: 1rem;
+        }
+
+        .dossier-title {
+          font-size: 1.05rem;
+        }
+
+        .btn {
+          padding: 0.6rem 0.8rem;
+          font-size: 0.88rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="archive-container">
+      <!-- الترويسة والشعار بالخط الطباعي الفاخر (بدون صورة) -->
+      <header class="brand-header">
+        <div class="brand-hero-plate" title="برنامج بحران">
+          <div class="brand-wordmark">بحران</div>
+          <div class="brand-program-label">بـرنـامـج</div>
         </div>
-        <div class="buttons-group">
-          <a href="https://docs.google.com/viewer?url=https://github.com/pdf-vault/files/releases/download/v1/interview_sheikh_hussein_al_daihi_program_bahran.pdf&embedded=true" 
-             class="btn btn-view" target="_blank" rel="noopener noreferrer">
-            <i class="fas fa-eye"></i> عرض
-          </a>
-          <a href="https://github.com/pdf-vault/files/releases/download/v1/interview_sheikh_hussein_al_daihi_program_bahran.pdf" 
-             class="btn btn-download" download>
-            <i class="fas fa-download"></i> تحميل
-          </a>
-        </div>
-      </div>
 
-      <!-- Card 2 -->
-      <div class="doc-card">
-        <div class="file-info">
-          <div class="file-icon">
-            <i class="fas fa-file-pdf"></i>
-          </div>
-          <div class="file-title">
-            مقابلة د. السيد طاهر الموسوي
-            <small>برنامج بحران</small>
-          </div>
-        </div>
-        <div class="buttons-group">
-          <a href="https://docs.google.com/viewer?url=https://github.com/pdf-vault/files/releases/download/v1/interview_dr_sayed_taher_al_mousawi_program_bahran.pdf&embedded=true" 
-             class="btn btn-view" target="_blank" rel="noopener noreferrer">
-            <i class="fas fa-eye"></i> عرض
-          </a>
-          <a href="https://github.com/pdf-vault/files/releases/download/v1/interview_dr_sayed_taher_al_mousawi_program_bahran.pdf" 
-             class="btn btn-download" download>
-            <i class="fas fa-download"></i> تحميل
-          </a>
-        </div>
-      </div>
+        <h1 class="archive-title">مكتبة المستندات الرقمية</h1>
+        <p class="archive-subtitle">أرشيف المقابلات والوثائق الرسمية المفرغة</p>
 
-      <!-- Card 3 -->
-      <div class="doc-card">
-        <div class="file-info">
-          <div class="file-icon">
-            <i class="fas fa-file-pdf"></i>
-          </div>
-          <div class="file-title">
-            مقابلة الأستاذ باقر درويش
-            <small>برنامج بحران</small>
-          </div>
+        <div class="archive-ornament">
+          <span class="line"></span>
+          <span class="diamond"></span>
+          <span class="line"></span>
         </div>
-        <div class="buttons-group">
-          <a href="https://docs.google.com/viewer?url=https://github.com/pdf-vault/files/releases/download/v1/interview_baqer_darwish_program_bahran.pdf&embedded=true" 
-             class="btn btn-view" target="_blank" rel="noopener noreferrer">
-            <i class="fas fa-eye"></i> عرض
-          </a>
-          <a href="https://github.com/pdf-vault/files/releases/download/v1/interview_baqer_darwish_program_bahran.pdf" 
-             class="btn btn-download" download>
-            <i class="fas fa-download"></i> تحميل
-          </a>
-        </div>
-      </div>
+      </header>
 
-      <!-- Card 4 -->
-      <div class="doc-card">
-        <div class="file-info">
-          <div class="file-icon">
-            <i class="fas fa-file-pdf"></i>
+      <!-- قائمة الملفات التوثيقية -->
+      <main class="dossier-list">
+        <!-- مستند 01-->
+        <article class="dossier-card">
+          <div class="dossier-details">
+            <div class="dossier-number" title="وثيقة رقم ٠١">٠١</div>
+            <div class="dossier-content">
+              <h2 class="dossier-title">مقابلة الشيخ حسين الديهي</h2>
+              <div class="dossier-meta">
+                <span class="tag">برنامج بحران</span>
+                <span class="sep">•</span>
+                <span>تفريغ نصي كامل</span>
+                <span class="sep">•</span>
+                <span>صيغة PDF</span>
+              </div>
+            </div>
           </div>
-          <div class="file-title">
-            مقابلة السيد مرتضى السندي
-            <small>برنامج بحران</small>
+          <div class="dossier-actions">
+            <a
+              href="https://docs.google.com/viewer?url=https://github.com/pdf-vault/files/releases/download/v1/interview_sheikh_hussein_al_daihi_program_bahran.pdf&embedded=true"
+              class="btn btn-primary"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <i class="fas fa-eye"></i>
+              <span>عرض</span>
+            </a>
+            <a
+              href="https://github.com/pdf-vault/files/releases/download/v1/interview_sheikh_hussein_al_daihi_program_bahran.pdf"
+              class="btn btn-outline"
+              download
+            >
+              <i class="fas fa-download"></i>
+              <span>تحميل</span>
+            </a>
           </div>
-        </div>
-        <div class="buttons-group">
-          <a href="https://docs.google.com/viewer?url=https://github.com/pdf-vault/files/releases/download/v1/interview_dr_sayed_mortada_al_sanadi_program_bahran.pdf.pdf&embedded=true" 
-             class="btn btn-view" target="_blank" rel="noopener noreferrer">
-            <i class="fas fa-eye"></i> عرض
-          </a>
-          <a href="https://github.com/pdf-vault/files/releases/download/v1/interview_dr_sayed_mortada_al_sanadi_program_bahran.pdf.pdf" 
-             class="btn btn-download" download>
-            <i class="fas fa-download"></i> تحميل
-          </a>
-        </div>
-      </div>
+        </article>
+
+        <!-- مستند 02-->
+        <article class="dossier-card">
+          <div class="dossier-details">
+            <div class="dossier-number" title="وثيقة رقم ٠٢">٠٢</div>
+            <div class="dossier-content">
+              <h2 class="dossier-title">مقابلة د. السيد طاهر الموسوي</h2>
+              <div class="dossier-meta">
+                <span class="tag">برنامج بحران</span>
+                <span class="sep">•</span>
+                <span>تفريغ نصي كامل</span>
+                <span class="sep">•</span>
+                <span>صيغة PDF</span>
+              </div>
+            </div>
+          </div>
+          <div class="dossier-actions">
+            <a
+              href="https://docs.google.com/viewer?url=https://github.com/pdf-vault/files/releases/download/v1/interview_dr_sayed_taher_al_mousawi_program_bahran.pdf&embedded=true"
+              class="btn btn-primary"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <i class="fas fa-eye"></i>
+              <span>عرض</span>
+            </a>
+            <a
+              href="https://github.com/pdf-vault/files/releases/download/v1/interview_dr_sayed_taher_al_mousawi_program_bahran.pdf"
+              class="btn btn-outline"
+              download
+            >
+              <i class="fas fa-download"></i>
+              <span>تحميل</span>
+            </a>
+          </div>
+        </article>
+
+        <!-- مستند 03 -->
+        <article class="dossier-card">
+          <div class="dossier-details">
+            <div class="dossier-number" title="وثيقة رقم ٠٣">٠٣</div>
+            <div class="dossier-content">
+              <h2 class="dossier-title">مقابلة الأستاذ باقر درويش</h2>
+              <div class="dossier-meta">
+                <span class="tag">برنامج بحران</span>
+                <span class="sep">•</span>
+                <span>تفريغ نصي كامل</span>
+                <span class="sep">•</span>
+                <span>صيغة PDF</span>
+              </div>
+            </div>
+          </div>
+          <div class="dossier-actions">
+            <a
+              href="https://docs.google.com/viewer?url=https://github.com/pdf-vault/files/releases/download/v1/interview_baqer_darwish_program_bahran.pdf&embedded=true"
+              class="btn btn-primary"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <i class="fas fa-eye"></i>
+              <span>عرض</span>
+            </a>
+            <a
+              href="https://github.com/pdf-vault/files/releases/download/v1/interview_baqer_darwish_program_bahran.pdf"
+              class="btn btn-outline"
+              download
+            >
+              <i class="fas fa-download"></i>
+              <span>تحميل</span>
+            </a>
+          </div>
+        </article>
+        <!-- مستند 04 -->
+        <article class="dossier-card">
+          <div class="dossier-details">
+            <div class="dossier-number" title="وثيقة رقم ٠٤">٠٤</div>
+            <div class="dossier-content">
+              <h2 class="dossier-title">مقابلة السيد مرتضى السندي
+              <div class="dossier-meta">
+                <span class="tag">برنامج بحران</span>
+                <span class="sep">•</span>
+                <span>تفريغ نصي كامل</span>
+                <span class="sep">•</span>
+                <span>صيغة PDF</span>
+              </div>
+            </div>
+          </div>
+          <div class="dossier-actions">
+            <a
+              href="https://docs.google.com/viewer?url=https://github.com/pdf-vault/files/releases/download/v1/interview_dr_sayed_mortada_al_sanadi_program_bahran.pdf.pdf&embedded=true"
+              class="btn btn-primary"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <i class="fas fa-eye"></i>
+              <span>عرض</span>
+            </a>
+            <a
+              href="https://github.com/pdf-vault/files/releases/download/v1/interview_dr_sayed_mortada_al_sanadi_program_bahran.pdf.pdf"
+              class="btn btn-outline"
+              download
+            >
+              <i class="fas fa-download"></i>
+              <span>تحميل</span>
+            </a>
+          </div>
+        </article>
+      </main>
+
+      <!-- تذييل الصفحة -->
+      <footer class="archive-footer">
+        <span>برنامج بحران</span>
+        <span class="dot">◆</span>
+        <span>الأرشيف الوثائقي للمقابلات</span>
+      </footer>
     </div>
-  </div>
-</body>
+    <!-- 
+  ==================================================================
+  مرجع الأرقام العربية (للنسخ السريع عند إضافة بطاقات جديدة):
+  
+  الأرقام الأساسية: 
+  ٠  ١  ٢  ٣  ٤  ٥  ٦  ٧  ٨  ٩
+  
+  ترقيم المستندات (خانة ثنائية):
+  ٠١  ٠٢  ٠٣  ٠٤  ٠٥  ٠٦  ٠٧  ٠٨  ٠٩  ١٠
+  
+  الأرقام التالية:
+  ١١  ١٢  ١٣  ١٤  ١٥  ١٦  ١٧  ١٨  ١٩  ٢٠
+  ٢١  ٢٢  ٢٣  ٢٤  ٢٥  ٢٦  ٢٧  ٢٨  ٢٩  ٣٠
+  ==================================================================
+-->
+  </body>
 </html>
